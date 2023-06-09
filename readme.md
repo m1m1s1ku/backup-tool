@@ -5,8 +5,14 @@ Simple Database Backup tool in NodeJS (using node-cron)
 Backup a local database, compress, send to defined providers in config.
 Also perform a cleanup task on providers. (Keep only 3 days of backups.)
 
-```json
+```jsonc
 {
+    "settings": {
+        // Start backup on script startup
+        "backupOnInit": true,
+        // every day at 02:00. @see: https://crontab.guru/
+        "scheduleExpression": "0 2 * * *"
+    },
     "db": {
         "host": "localhost",
         "user": "xxx",
@@ -15,6 +21,7 @@ Also perform a cleanup task on providers. (Keep only 3 days of backups.)
     },
     "providers": [
         {
+            "name": "siteA",
             "type": "sftp",
             "destination": "/remote-path",
             "connection": {
@@ -25,6 +32,7 @@ Also perform a cleanup task on providers. (Keep only 3 days of backups.)
             }
         },
         {
+            "name": "siteB",
             "type": "ftpes",
             "destination": "/remote-path",
             "connection": {

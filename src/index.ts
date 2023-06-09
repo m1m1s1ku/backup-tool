@@ -10,8 +10,10 @@ import FTPProvider from './providers/ftp';
 import SFTPProvider from './providers/sftp';
 import logger from './logger';
 
-// @todo : ask for self-signed to Ladidi?
-process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+if(config.settings?.allowSelfSigned ?? false) {
+  // @todo : ask for self-signed to Ladidi?
+  process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+}
 
 async function backupJob(): Promise<void> {
   try {
@@ -51,8 +53,14 @@ async function backupJob(): Promise<void> {
   }
 }
 
-schedule('0 2 * * *', async () => {
+if(!config.settings?.scheduleExpression) {
+  throw new Error('Invalid config, no schedule expression defined');
+}
+
+schedule(config.settings.scheduleExpression, async () => {
   await backupJob();
 });
 
-backupJob();
+if(config.settings?.backupOnInit) {
+  backupJob();
+}
