@@ -8,7 +8,7 @@ import logger from '../logger';
 export default class SFTPProvider implements Provider<'sftp'> {
     constructor(public config: ConfigType<'sftp'>) {}
 
-    async send(file: string) {
+    async send(file: string): Promise<void> {
         const client = new Client();
         await new Promise<void>((resolve, reject) => {
           client.on('ready', () => {
