@@ -35,7 +35,7 @@ export default class FTPProvider implements Provider<'ftp' | 'ftpes'> {
             if(file.name.endsWith('.gz') && file.date) {
                 const ageInDays = Math.floor((currentDate.getTime() - file.date.getTime())) / 86400000;
                 if(ageInDays > 2) {
-                    logger.info(`Deleting file ${file.name} on ${this.config.name}`);
+                    logger.info(`Deleting file ${file.name} in ${this.config.name}`);
                     await ftpClient.delete(join(this.config.destination, file.name));
                 }
             }
