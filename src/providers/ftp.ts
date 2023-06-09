@@ -2,7 +2,7 @@ import FTPClient from "ftp-ts";
 
 import { basename, join } from "path";
 
-import { ConfigType, Provider } from ".";
+import type { ConfigType, Provider } from ".";
 import logger from "../logger";
 
 export default class FTPProvider implements Provider<'ftp' | 'ftpes'> {

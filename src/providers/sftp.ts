@@ -2,7 +2,7 @@ import { Client } from 'ssh2';
 import { createReadStream } from "fs";
 import { basename, join } from "path";
 
-import { ConfigType, Provider } from ".";
+import type { ConfigType, Provider } from ".";
 import logger from '../logger';
 
 export default class SFTPProvider implements Provider<'sftp'> {
