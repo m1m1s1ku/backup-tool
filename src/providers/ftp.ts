@@ -24,7 +24,7 @@ export default class FTPProvider implements Provider<'ftp' | 'ftpes'> {
         ftpClient.end();
     }
 
-    async cleanup(): Promise<void> {   
+    async cleanup(): Promise<void> {
         const currentDate = new Date();
 
         const ftpClient = await FTPClient.connect(this.config.connection);

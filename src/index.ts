@@ -1,6 +1,6 @@
 import { schedule } from 'node-cron';
 
-import config from './config';
+import config, { TransportProtocols } from './config';
 
 import { backupDatabase, compressBackup } from './utils/database';
 import { cleanTempData } from './utils/local';
@@ -18,20 +18,27 @@ async function backupJob(): Promise<void> {
     const backupFilePath = await backupDatabase(config.db);
     const compressedFilePath = await compressBackup(backupFilePath);
 
-    const providers: Provider<'ftp' | 'ftpes' | 'sftp'>[] = [];
-
     for(const description of config.providers) {
-      if(description.type === 'ftp' || description.type === 'ftpes') {
-        providers.push(new FTPProvider(description as ConfigType<'ftp' | 'ftpes'>));
-      }
-      if(description.type === 'sftp') {
-        providers.push(new SFTPProvider(description as ConfigType<'sftp'>));
-      }
-    }
+      let provider: Provider<'ftp' | 'ftpes' | 'sftp'>;
 
-    for(const provider of providers) {
-      await provider.send(compressedFilePath);
-      await provider.cleanup();
+      switch (description.type) {
+        case 'ftp':
+        case 'ftpes':
+          provider = new FTPProvider(description as ConfigType<'ftp' | 'ftpes'>);
+          break;
+        case 'sftp':
+          provider = new SFTPProvider(description as ConfigType<'sftp'>);
+          break;
+        default:
+          throw new Error('Unknown provider type');
+      }
+
+      try {
+        await provider.send(compressedFilePath);
+        await provider.cleanup();
+      } catch (err) {
+        logger.error(`Error during job for ${description.name}`, err);
+      }
     }
 
     try {
