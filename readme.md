@@ -14,6 +14,7 @@ Also perform a cleanup task on providers. (Keep only 3 days of backups.)
         "scheduleExpression": "0 2 * * *"
     },
     "db": {
+        // uses mysqldump with exec, make sure to have it
         "host": "localhost",
         "user": "xxx",
         "password": "xxx",
@@ -24,6 +25,7 @@ Also perform a cleanup task on providers. (Keep only 3 days of backups.)
             "name": "siteA",
             "type": "sftp",
             "destination": "/remote-path",
+            // @see: https://github.com/mscdex/ssh2#client-methods
             "connection": {
                 "host": "remote-sftp-host",
                 "port": 22,
@@ -35,6 +37,7 @@ Also perform a cleanup task on providers. (Keep only 3 days of backups.)
             "name": "siteB",
             "type": "ftpes",
             "destination": "/remote-path",
+            // @see: https://github.com/lumphe/ftp-ts#ftpconnectoptions
             "connection": {
                 "host": "remote-ftpes-host",
                 "port": 21,
