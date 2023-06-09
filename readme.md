@@ -35,7 +35,7 @@ Also perform a cleanup task on providers. (Keep only 3 days of backups.)
         },
         {
             "name": "siteB",
-            "type": "ftpes",
+            "type": "ftpes", // or ftp
             "destination": "/remote-path",
             // @see: https://github.com/lumphe/ftp-ts#ftpconnectoptions
             "connection": {
