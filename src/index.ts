@@ -10,6 +10,7 @@ import FTPProvider from './providers/ftp';
 import SFTPProvider from './providers/sftp';
 import logger from './logger';
 
+// @todo : ask for self-signed to Ladidi?
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
 async function backupJob() {
