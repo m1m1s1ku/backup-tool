@@ -44,6 +44,15 @@ Also perform a cleanup task on providers. (Keep only 3 days of backups.)
 }
 ```
 
+## Usage
+
+```sh
+$ pnpm install
+$ pnpm run dev
+```
+
+For production usage, use `pm2` or similar.
+
 ## License
 
 [MIT License](./LICENSE)
