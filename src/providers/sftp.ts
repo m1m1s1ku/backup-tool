@@ -58,7 +58,6 @@ export default class SFTPProvider implements Provider<'sftp'> {
                   });
       
                 Promise.all(deletePromises).then(() => {
-                    logger.info(`Cleanup success on ${this.config.name}`);
                     client.end();
                     resolve();
                 }).catch(reject);
