@@ -4,9 +4,10 @@ import { basename, join } from "path";
 
 import type { ConfigType, Provider } from ".";
 import logger from '../logger';
+import { Protocols } from '../config';
 
-export default class SFTPProvider implements Provider<'sftp'> {
-    constructor(public config: ConfigType<'sftp'>) {}
+export default class SFTPProvider implements Provider<Protocols.sftp> {
+    constructor(public config: ConfigType<Protocols.sftp>) {}
 
     async send(file: string): Promise<void> {
         const client = new Client();

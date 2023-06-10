@@ -4,9 +4,10 @@ import { basename, join } from "path";
 
 import type { ConfigType, Provider } from ".";
 import logger from "../logger";
+import { Protocols } from "../config";
 
-export default class FTPProvider implements Provider<'ftp' | 'ftpes'> {
-    constructor(public config: ConfigType<'ftp' | 'ftpes'>) {}
+export default class FTPProvider implements Provider<Protocols.ftp | Protocols.ftpes> {
+    constructor(public config: ConfigType<Protocols.ftp | Protocols.ftpes>) {}
 
     async send(file: string): Promise<void> {
         const ftpClient = await FTPClient.connect(this.config.connection);

@@ -1,10 +1,10 @@
 import { schedule } from 'node-cron';
 
-import config from './config';
+import config, { Protocols } from './config';
 
 import { backupDatabase, compressBackup } from './utils/database';
 import { cleanTempData } from './utils/local';
-import { ConfigType, Provider, isFTP, isSFTP } from './providers';
+import { isFTP, isSFTP } from './providers';
 
 import FTPProvider from './providers/ftp';
 import SFTPProvider from './providers/sftp';
@@ -28,7 +28,7 @@ async function backupJob(): Promise<void> {
       } else if (isSFTP(description)) {
         provider = new SFTPProvider(description);
       } else {
-        throw new Error('Unknown provider type');
+        throw new Error(`Unknown provider type : ${description.type}, expected one of : ${Object.keys(Protocols).join(',')}`);
       }
 
       try {

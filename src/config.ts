@@ -1,5 +1,9 @@
-import Config from '../config.json'
+import Config from '../config.json';
 
-export type TransportProtocols = 'sftp' | 'ftpes' | 'ftp';
+export enum Protocols {
+    sftp = 'sftp',
+    ftpes = 'ftpes',
+    ftp = 'ftp',
+}
 
 export default Config;
