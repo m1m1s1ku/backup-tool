@@ -35,22 +35,29 @@ async function backupJob(): Promise<void> {
     const backupFilePath = await backupDatabase(config.db);
     const compressedFilePath = await compressBackup(backupFilePath);
 
+    const jobs: Promise<void>[] = [];
     for(const provider of providers) {
-      try {
-        await provider.send(compressedFilePath);
-        await provider.cleanup();
-      } catch (err) {
-        logger.error(`Error during job for ${provider.config.name}`, err);
-      }
+      const job = async () => {
+        try {
+          await provider.send(compressedFilePath);
+          await provider.cleanup();
+        } catch (err) {
+          logger.error(`Error during job for ${provider.config.name}`, err)
+        }
+      };
+
+      jobs.push(job());
     }
+
+    await Promise.all(jobs);
 
     try {
       await cleanTempData();
     } catch (err) {
-      logger.error('Error during local cleanup', err);
+      logger.error(`Error during local cleanup, ${err}`);
     }
   } catch (err) {
-    logger.error(err);
+    logger.error(`Error during DB backup ${err}`);
   }
 }
 
