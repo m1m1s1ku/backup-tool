@@ -71,7 +71,11 @@ Build to `dist` folder :
 $ pnpm run build
 ```
 
-For production usage, use `pm2` or similar.
+For production usage, use [pm2](https://pm2.keymetrics.io/) or similar.
+
+```sh
+pm2 start dist/src/index.js
+```
 
 ## License
 
