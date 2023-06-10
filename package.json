@@ -2,9 +2,10 @@
   "name": "backup-tool",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/src/index.js",
   "scripts": {
     "dev": "ts-node ./src/index.ts",
+    "start": "node ./dist/src/index.js",
     "build": "tsc"
   },
   "author": "Mimisiku. <leonard@mimisiku.dev> (https://mimisiku.dev)",
