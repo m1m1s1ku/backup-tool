@@ -27,8 +27,6 @@ export default class FTPProvider implements Provider<Protocols.ftp | Protocols.f
     }
 
     async cleanup(): Promise<void> {
-        const currentDate = new Date();
-
         const ftpClient = await FTPClient.connect(this.config.connection);
         const fileListing = await ftpClient.list(this.config.destination);
         const toDelete: Promise<void>[] = [];

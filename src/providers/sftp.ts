@@ -8,7 +8,6 @@ import { ageInDays } from '../utils/date';
 import type { ConfigType, Provider, Protocols } from ".";
 import Config from '../config';
 
-
 export default class SFTPProvider implements Provider<Protocols.sftp> {
     constructor(public config: ConfigType<Protocols.sftp>) {}
 
