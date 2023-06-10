@@ -8,7 +8,7 @@
     "start": "node ./dist/src/index.js",
     "pretty": "npx prettier --write .",
     "lint": "npx eslint .",
-    "build": "tsc"
+    "build": "pnpm run pretty && pnpm run lint && tsc"
   },
   "author": "Mimisiku. <leonard@mimisiku.dev> (https://mimisiku.dev)",
   "license": "MIT",
