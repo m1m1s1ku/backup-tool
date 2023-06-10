@@ -4,7 +4,7 @@ import config from './config';
 
 import { backupDatabase, compressBackup } from './utils/database';
 import { cleanTempData } from './utils/local';
-import { ConfigType, Provider } from './providers';
+import { ConfigType, Provider, isFTP, isSFTP } from './providers';
 
 import FTPProvider from './providers/ftp';
 import SFTPProvider from './providers/sftp';
@@ -21,18 +21,14 @@ async function backupJob(): Promise<void> {
     const compressedFilePath = await compressBackup(backupFilePath);
 
     for(const description of config.providers) {
-      let provider: Provider<'ftp' | 'ftpes' | 'sftp'>;
+      let provider: FTPProvider | SFTPProvider;
 
-      switch (description.type) {
-        case 'ftp':
-        case 'ftpes':
-          provider = new FTPProvider(description as ConfigType<'ftp' | 'ftpes'>);
-          break;
-        case 'sftp':
-          provider = new SFTPProvider(description as ConfigType<'sftp'>);
-          break;
-        default:
-          throw new Error('Unknown provider type');
+      if(isFTP(description)) {
+        provider = new FTPProvider(description);
+      } else if (isSFTP(description)) {
+        provider = new SFTPProvider(description);
+      } else {
+        throw new Error('Unknown provider type');
       }
 
       try {

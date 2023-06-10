@@ -22,3 +22,11 @@ export interface Provider<T extends TransportProtocols> {
     send(file: string): Promise<void>;
     cleanup(): Promise<void>;
 }
+
+export function isSFTP(config: { type: string }): config is ConfigType<'sftp'> {
+    return config.type === 'sftp';
+}
+
+export function isFTP(config: { type: string }): config is ConfigType<'ftp' | 'ftpes'> {
+    return config.type === 'ftp' || config.type === 'ftpes';
+}
