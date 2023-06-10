@@ -16,8 +16,8 @@ export interface ConfigType<Protocol extends Protocols> {
     connection: ConnectionConfigForProvider[Protocol],
 }
 
-export interface Provider<T extends Protocols> {
-    config: ConfigType<T>;
+export interface Provider<Protocol extends Protocols> {
+    config: ConfigType<Protocol>;
 
     send(file: string): Promise<void>;
     cleanup(): Promise<void>;
