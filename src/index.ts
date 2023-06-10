@@ -42,7 +42,7 @@ async function backupJob(): Promise<void> {
           await provider.send(compressedFilePath);
           await provider.cleanup();
         } catch (err) {
-          logger.error(`Error during job for ${provider.config.name}`, err)
+          logger.error(`Error during job for ${provider.config.name}, ${err}`);
         }
       };
 

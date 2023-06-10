@@ -20,6 +20,6 @@ export async function cleanTempData(): Promise<void> {
         }
       }
     } catch (err) {
-        logger.error(`Error while removing files in ${dir}.`, err);
+        logger.error(`Error while removing files in ${dir}. ${err}`);
     }
 }

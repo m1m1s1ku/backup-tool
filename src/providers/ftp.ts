@@ -17,7 +17,7 @@ export default class FTPProvider implements Provider<Protocols.ftp | Protocols.f
             return;
           }
       
-          logger.error('connection closed, with error:', isError);
+          logger.error(`connection closed, with error: ${isError}`);
         });
       
         await ftpClient.put(file, join(this.config.destination, basename(file)));
