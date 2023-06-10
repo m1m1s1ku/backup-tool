@@ -3,7 +3,7 @@
 Simple Database Backup tool in NodeJS (using node-cron)
 
 Backup a local database, compress, send to defined providers in config.
-Also perform a cleanup task on providers. (Keep only 3 days of backups.)
+Also perform a cleanup task on providers. (Keep only X days of backups.)
 
 At the root, create a `config.json` file with :
 
@@ -13,7 +13,8 @@ At the root, create a `config.json` file with :
         // Start backup on script startup
         "backupOnInit": true,
         // every day at 02:00. @see: https://crontab.guru/
-        "scheduleExpression": "0 2 * * *"
+        "scheduleExpression": "0 2 * * *",
+        "maxFileAge": 2 // Backups who have more than 2 days will be deleted.
     },
     "db": {
         // uses mysqldump with exec, make sure to have it

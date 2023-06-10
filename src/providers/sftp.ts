@@ -3,8 +3,11 @@ import { createReadStream } from "fs";
 import { basename, join } from "path";
 
 import logger from '../utils/logger';
+import { ageInDays } from '../utils/date';
 
 import type { ConfigType, Provider, Protocols } from ".";
+import Config from '../config';
+
 
 export default class SFTPProvider implements Provider<Protocols.sftp> {
     constructor(public config: ConfigType<Protocols.sftp>) {}
@@ -39,14 +42,14 @@ export default class SFTPProvider implements Provider<Protocols.sftp> {
               if (err) reject(err);
               sftp.readdir(this.config.destination, (err, files) => {
                 if (err) reject(err);
-                const currentDate = new Date();
+
                 const deletePromises = files
                   .filter(file => file.filename.endsWith('.gz'))
                   .map(file => ({
                     ...file,
-                    ageInDays: Math.floor((currentDate.getTime() - new Date(file.attrs.mtime * 1000).getTime()) / 86400000)
+                    age: ageInDays(new Date(file.attrs.mtime * 1000)),
                   }))
-                  .filter(file => file.ageInDays > 2)
+                  .filter(file => file.age > Config.settings.maxFileAge)
                   .map(file => {
                     const filePath = join(this.config.destination, file.filename);
                     return new Promise<void>((resolve, reject) => {

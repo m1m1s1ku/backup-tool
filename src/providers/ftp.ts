@@ -2,8 +2,10 @@ import FTPClient from "ftp-ts";
 import { basename, join } from "path";
 
 import logger from "../utils/logger";
+import { ageInDays } from "../utils/date";
 
 import type { ConfigType, Provider, Protocols } from ".";
+import Config from "../config";
 
 export default class FTPProvider implements Provider<Protocols.ftp | Protocols.ftpes> {
     constructor(public config: ConfigType<Protocols.ftp | Protocols.ftpes>) {}
@@ -34,14 +36,14 @@ export default class FTPProvider implements Provider<Protocols.ftp | Protocols.f
         for(const file of fileListing) {
             if(typeof file === 'string') { continue; }
             if(file.name.endsWith('.gz') && file.date) {
-                const ageInDays = Math.floor((currentDate.getTime() - file.date.getTime())) / 86400000;
-                if(ageInDays > 2) {
+                const age = ageInDays(file.date);
+                if(age > Config.settings.maxFileAge) {
                     logger.info(`Deleting file ${file.name} in ${this.config.name}`);
                     toDelete.push(ftpClient.delete(join(this.config.destination, file.name)));
                 }
             }
         }
-        
+
         await Promise.all(toDelete);
 
         ftpClient.end();
