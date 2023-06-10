@@ -15,27 +15,27 @@ if(config.settings?.allowSelfSigned ?? false) {
   process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 }
 
+const providers = config.providers.map((description) => {
+  if(isFTP(description)) {
+    return new FTPProvider(description);
+  } else if (isSFTP(description)) {
+    return new SFTPProvider(description);
+  } else {
+    throw new Error(`Unknown provider type : ${description.type}, expected one of : ${Object.keys(Protocols).join(',')}`);
+  }
+});
+
 async function backupJob(): Promise<void> {
   try {
     const backupFilePath = await backupDatabase(config.db);
     const compressedFilePath = await compressBackup(backupFilePath);
 
-    for(const description of config.providers) {
-      let provider: FTPProvider | SFTPProvider;
-
-      if(isFTP(description)) {
-        provider = new FTPProvider(description);
-      } else if (isSFTP(description)) {
-        provider = new SFTPProvider(description);
-      } else {
-        throw new Error(`Unknown provider type : ${description.type}, expected one of : ${Object.keys(Protocols).join(',')}`);
-      }
-
+    for(const provider of providers) {
       try {
         await provider.send(compressedFilePath);
         await provider.cleanup();
       } catch (err) {
-        logger.error(`Error during job for ${description.name}`, err);
+        logger.error(`Error during job for ${provider.config.name}`, err);
       }
     }
 
