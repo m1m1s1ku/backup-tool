@@ -29,6 +29,7 @@ export default class FTPProvider implements Provider<Protocols.ftp | Protocols.f
 
         const ftpClient = await FTPClient.connect(this.config.connection);
         const fileListing = await ftpClient.list(this.config.destination);
+        const toDelete: Promise<void>[] = [];
     
         for(const file of fileListing) {
             if(typeof file === 'string') { continue; }
@@ -36,10 +37,13 @@ export default class FTPProvider implements Provider<Protocols.ftp | Protocols.f
                 const ageInDays = Math.floor((currentDate.getTime() - file.date.getTime())) / 86400000;
                 if(ageInDays > 2) {
                     logger.info(`Deleting file ${file.name} in ${this.config.name}`);
-                    await ftpClient.delete(join(this.config.destination, file.name));
+                    toDelete.push(ftpClient.delete(join(this.config.destination, file.name)));
                 }
             }
         }
+        
+        await Promise.all(toDelete);
+
         ftpClient.end();
     }
 }
