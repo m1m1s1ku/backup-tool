@@ -1,7 +1,13 @@
 import type { IOptions } from "ftp-ts";
 import type { ConnectConfig } from "ssh2";
+import SFTPProvider from "./sftp";
+import FTPProvider from "./ftp";
 
-import type { Protocols } from "../config";
+export enum Protocols {
+    sftp = 'sftp',
+    ftpes = 'ftpes',
+    ftp = 'ftp',
+}
 
 interface ConnectionConfigForProvider {
     sftp: ConnectConfig,
@@ -30,3 +36,5 @@ export function isSFTP(config: { type: string }): config is ConfigType<Protocols
 export function isFTP(config: { type: string }): config is ConfigType<Protocols.ftp | Protocols.ftpes> {
     return config.type === 'ftp' || config.type === 'ftpes';
 }
+
+export { SFTPProvider, FTPProvider };

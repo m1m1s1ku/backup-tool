@@ -1,14 +1,19 @@
 import { schedule } from 'node-cron';
 
-import config, { Protocols } from './config';
+import config from './config';
 
 import { backupDatabase, compressBackup } from './utils/database';
 import { cleanTempData } from './utils/local';
-import { isFTP, isSFTP } from './providers';
 
-import FTPProvider from './providers/ftp';
-import SFTPProvider from './providers/sftp';
-import logger from './logger';
+import logger from './utils/logger';
+
+import { 
+  Protocols,
+  isFTP, 
+  isSFTP, 
+  FTPProvider, 
+  SFTPProvider
+} from './providers';
 
 if(config.settings?.allowSelfSigned ?? false) {
   // @todo : ask for self-signed to Ladidi?

@@ -1,10 +1,9 @@
 import FTPClient from "ftp-ts";
-
 import { basename, join } from "path";
 
-import type { ConfigType, Provider } from ".";
-import logger from "../logger";
-import { Protocols } from "../config";
+import logger from "../utils/logger";
+
+import type { ConfigType, Provider, Protocols } from ".";
 
 export default class FTPProvider implements Provider<Protocols.ftp | Protocols.ftpes> {
     constructor(public config: ConfigType<Protocols.ftp | Protocols.ftpes>) {}

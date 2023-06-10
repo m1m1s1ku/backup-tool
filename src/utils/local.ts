@@ -1,6 +1,6 @@
 import { readdir, stat, unlink } from "fs/promises";
 import { tmpdir } from "os";
-import logger from "../logger";
+import logger from "./logger";
 
 /**
  * Cleanup script data. (.sql and .gz file in tmpdir)
