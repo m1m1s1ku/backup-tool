@@ -77,10 +77,10 @@ if (config.settings?.backupOnInit) {
   backupJob();
 }
 
-process.on('uncaughtException', (err) => {
+process.on("uncaughtException", (err) => {
   logger.error(`uncaughtException: ${err}`);
 });
 
-process.on('unhandledRejection', (err) => {
+process.on("unhandledRejection", (err) => {
   logger.error(`unhandledRejection : ${err}`);
-})
+});
