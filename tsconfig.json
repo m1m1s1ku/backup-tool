@@ -9,7 +9,7 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "noImplicitAny": true,
-    "outDir": "./dist",
+    "outDir": "./dist"
   },
   "include": ["./config.json", "./src"]
 }

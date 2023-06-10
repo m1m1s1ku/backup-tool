@@ -1,7 +1,7 @@
-import Pino from 'pino';
+import Pino from "pino";
 
 const pino = Pino({
-    name: 'BackupTool'
+  name: "BackupTool",
 });
 
 export default pino;
