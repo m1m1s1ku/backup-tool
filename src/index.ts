@@ -76,3 +76,11 @@ schedule(config.settings.scheduleExpression, async () => {
 if (config.settings?.backupOnInit) {
   backupJob();
 }
+
+process.on('uncaughtException', (err) => {
+  logger.error(`uncaughtException: ${err}`);
+});
+
+process.on('unhandledRejection', (err) => {
+  logger.error(`unhandledRejection : ${err}`);
+})
