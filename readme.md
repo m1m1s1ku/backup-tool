@@ -5,7 +5,7 @@ Simple Database Backup tool in NodeJS (using node-cron)
 Backup a local database, compress, send to defined providers in config.
 Also perform a cleanup task on providers. (Keep only 3 days of backups.)
 
-At the root, create a "config.json" file with :
+At the root, create a `config.json` file with :
 
 ```jsonc
 {
@@ -62,6 +62,11 @@ At the root, create a "config.json" file with :
 ```sh
 $ pnpm install
 $ pnpm run dev
+```
+
+Build to `dist` folder :
+```sh
+$ pnpm run build
 ```
 
 For production usage, use `pm2` or similar.
