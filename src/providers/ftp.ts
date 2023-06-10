@@ -12,7 +12,7 @@ export default class FTPProvider implements Provider<Protocols.ftp | Protocols.f
     async send(file: string): Promise<void> {
         const ftpClient = await FTPClient.connect(this.config.connection);
 
-        ftpClient.on('close', (isError) => {
+        ftpClient.on('close', (isError: boolean) => {
           if(!isError) {
             logger.info(`File ${file} sent to ${this.config.name}`);
             return;
