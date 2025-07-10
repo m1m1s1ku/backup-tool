@@ -1,6 +1,6 @@
 # Backup tool
 
-Simple Database Backup tool in NodeJS (using node-cron)
+Simple Backup tool in NodeJS (using node-cron)
 
 Backup a local database or/and files, compress, send to defined providers in config.
 Also perform a cleanup task on providers. (Keep only X days of backups.)
