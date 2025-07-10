@@ -16,7 +16,6 @@ import {
 } from "./providers";
 
 if (config.settings?.allowSelfSigned ?? false) {
-  // @todo : ask for self-signed to Ladidi?
   process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
 }
 
