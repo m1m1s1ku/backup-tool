@@ -3,7 +3,7 @@ import { tmpdir } from "os";
 import logger from "./logger";
 
 /**
- * Cleanup script data. (.sql and .gz file in tmpdir)
+ * Cleanup script data. (.sql, .gz and .zip file in tmpdir)
  */
 export async function cleanTempData(): Promise<void> {
   const dir = tmpdir();
