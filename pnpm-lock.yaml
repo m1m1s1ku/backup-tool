@@ -30,9 +30,6 @@ importers:
       '@types/node':
         specifier: ^22.16.3
         version: 22.16.3
-      '@types/node-cron':
-        specifier: ^3.0.11
-        version: 3.0.11
       '@types/ssh2':
         specifier: ^1.15.5
         version: 1.15.5
@@ -178,9 +175,6 @@ packages:
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
-
-  '@types/node-cron@3.0.11':
-    resolution: {integrity: sha512-0ikrnug3/IyneSHqCBeslAhlK2aBfYek1fGo4bP4QnZPmiqSGRK+Oy7ZMisLWkesffJvQ1cqAcBnJC+8+nxIAg==}
 
   '@types/node@18.19.117':
     resolution: {integrity: sha512-hcxGs9TfQGghOM8atpRT+bBMUX7V8WosdYt98bQ59wUToJck55eCOlemJ+0FpOZOQw5ff7LSi9+IO56KvYEFyQ==}
@@ -1139,8 +1133,6 @@ snapshots:
   '@types/estree@1.0.8': {}
 
   '@types/json-schema@7.0.15': {}
-
-  '@types/node-cron@3.0.11': {}
 
   '@types/node@18.19.117':
     dependencies:

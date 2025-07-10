@@ -22,7 +22,6 @@
   },
   "devDependencies": {
     "@types/node": "^22.16.3",
-    "@types/node-cron": "^3.0.11",
     "@types/ssh2": "^1.15.5",
     "@typescript-eslint/eslint-plugin": "^8.36.0",
     "@typescript-eslint/parser": "^8.36.0",
