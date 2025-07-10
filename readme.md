@@ -14,15 +14,18 @@ At the root, create a `config.json` file with :
     "backupOnInit": true,
     // every day at 02:00. @see: https://crontab.guru/
     "scheduleExpression": "0 2 * * *",
-    "maxFileAge": 2 // Backups who have more than 2 days will be deleted.
+    "maxFileAge": 2,
+    "allowSelfSigned": false
   },
-  "db": {
-    // uses mysqldump with exec, make sure to have it
-    "host": "localhost",
-    "user": "xxx",
-    "password": "xxx",
-    "name": "xxx"
-  },
+  // uses mysqldump with exec, make sure to have it
+  "dbs": [
+    {
+      "host": "localhost",
+      "user": "xxx",
+      "password": "xxx",
+      "name": "xxx"
+    }
+  ],
   "providers": [
     {
       "name": "siteA",
