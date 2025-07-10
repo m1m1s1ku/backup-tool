@@ -18,7 +18,7 @@ export async function backupDatabase(config: DBConfig): Promise<string> {
     tmpdir(),
     `backup-${config.name}-${Date.now()}.sql`,
   );
-  const backupCommand = `mysqldump -h ${config.host} -u ${config.user} -p${config.password} ${config.name} > ${backupFilePath}`;
+  const backupCommand = `mysqldump -h ${config.host} -u ${config.user} -p'${config.password}' ${config.name} > ${backupFilePath}`;
   await promisify(exec)(backupCommand);
   return backupFilePath;
 }
