@@ -2,7 +2,7 @@
 
 Simple Database Backup tool in NodeJS (using node-cron)
 
-Backup a local database, compress, send to defined providers in config.
+Backup a local database or/and files, compress, send to defined providers in config.
 Also perform a cleanup task on providers. (Keep only X days of backups.)
 
 At the root, create a `config.json` file with :
