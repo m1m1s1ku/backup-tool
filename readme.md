@@ -29,8 +29,7 @@ At the root, create a `config.json` file with :
   "files": [
     {
       "name": "example-project",
-      "source": "/local-path",
-      "destination": "/remote-path"
+      "source": "/local-path"
     }
   ],
   "providers": [
