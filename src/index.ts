@@ -14,6 +14,7 @@ import {
   FTPProvider,
   SFTPProvider,
 } from "./providers";
+import { zipFiles } from "./utils/files";
 
 if (config.settings?.allowSelfSigned ?? false) {
   process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
@@ -37,7 +38,7 @@ async function backupJob(): Promise<void> {
   try {
     for (const db of config.dbs) {
       const backupFilePath = await backupDatabase(db);
-      const compressedFilePath = await compressBackup(backupFilePath);
+      const compressedFilePath = await compressBackup(db, backupFilePath);
 
       const jobs: Promise<void>[] = [];
       for (const provider of providers) {
@@ -47,7 +48,7 @@ async function backupJob(): Promise<void> {
             await provider.cleanup();
           } catch (err) {
             logger.error(
-              `Error during job for ${provider.config.name}, ${err}`,
+              `Error during db job for ${provider.config.name}, ${err}`,
             );
           }
         };
@@ -56,12 +57,33 @@ async function backupJob(): Promise<void> {
       }
 
       await Promise.all(jobs);
+    }
 
-      try {
-        await cleanTempData();
-      } catch (err) {
-        logger.error(`Error during local cleanup, ${err}`);
+    for (const files of config.files) {
+      const jobs: Promise<void>[] = [];
+      const zipFilePath = await zipFiles(files.name, files.source);
+      for (const provider of providers) {
+        const job = async () => {
+          try {
+            await provider.send(zipFilePath);
+            await provider.cleanup();
+          } catch (err) {
+            logger.error(
+              `Error during files job for ${provider.config.name}, ${err}`,
+            );
+          }
+        };
+
+        jobs.push(job());
       }
+
+      await Promise.all(jobs);
+    }
+
+    try {
+      await cleanTempData();
+    } catch (err) {
+      logger.error(`Error during local cleanup, ${err}`);
     }
   } catch (err) {
     logger.error(`Error during DB backup ${err}`);

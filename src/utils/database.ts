@@ -23,8 +23,14 @@ export async function backupDatabase(config: DBConfig): Promise<string> {
   return backupFilePath;
 }
 
-export async function compressBackup(backupFilePath: string): Promise<string> {
-  const compressedFilePath = join(tmpdir(), `backup-${Date.now()}.gz`);
+export async function compressBackup(
+  config: DBConfig,
+  backupFilePath: string,
+): Promise<string> {
+  const compressedFilePath = join(
+    tmpdir(),
+    `db-backup-${config.name}-${Date.now()}.gz`,
+  );
   const input = createReadStream(backupFilePath);
   const output = createWriteStream(compressedFilePath);
   const gzip = createGzip();

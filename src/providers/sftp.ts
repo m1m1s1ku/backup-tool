@@ -44,7 +44,11 @@ export default class SFTPProvider implements Provider<Protocols.sftp> {
             if (err) reject(err);
 
             const deletePromises = files
-              .filter((file) => file.filename.endsWith(".gz"))
+              .filter(
+                (file) =>
+                  file.filename.endsWith(".gz") ||
+                  file.filename.endsWith(".zip"),
+              )
               .map((file) => ({
                 ...file,
                 age: ageInDays(new Date(file.attrs.mtime * 1000)),
@@ -56,7 +60,7 @@ export default class SFTPProvider implements Provider<Protocols.sftp> {
                   sftp.unlink(filePath, (err) => {
                     if (err) reject(err);
                     logger.info(
-                      `Deleting file ${file.filename} in ${this.config.name}`
+                      `Deleting file ${file.filename} in ${this.config.name}`,
                     );
                     resolve();
                   });

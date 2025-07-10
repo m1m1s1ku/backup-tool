@@ -26,6 +26,13 @@ At the root, create a `config.json` file with :
       "name": "xxx"
     }
   ],
+  "files": [
+    {
+      "name": "example-project",
+      "source": "/local-path",
+      "destination": "/remote-path"
+    }
+  ],
   "providers": [
     {
       "name": "siteA",

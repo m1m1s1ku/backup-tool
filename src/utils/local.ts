@@ -16,7 +16,9 @@ export async function cleanTempData(): Promise<void> {
       const stats = await stat(filePath);
       if (
         stats.isFile() &&
-        (fileExtension === "sql" || fileExtension === "gz")
+        (fileExtension === "sql" ||
+          fileExtension === "gz" ||
+          fileExtension === "zip")
       ) {
         await unlink(filePath);
         logger.info(`File ${filePath} removed.`);

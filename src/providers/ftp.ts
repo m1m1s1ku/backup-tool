@@ -37,12 +37,15 @@ export default class FTPProvider
       if (typeof file === "string") {
         continue;
       }
-      if (file.name.endsWith(".gz") && file.date) {
+      if (
+        (file.name.endsWith(".gz") || file.name.endsWith(".zip")) &&
+        file.date
+      ) {
         const age = ageInDays(file.date);
         if (age > Config.settings.maxFileAge) {
           logger.info(`Deleting file ${file.name} in ${this.config.name}`);
           toDelete.push(
-            ftpClient.delete(join(this.config.destination, file.name))
+            ftpClient.delete(join(this.config.destination, file.name)),
           );
         }
       }
