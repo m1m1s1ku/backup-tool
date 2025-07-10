@@ -14,7 +14,10 @@ export interface DBConfig {
 }
 
 export async function backupDatabase(config: DBConfig): Promise<string> {
-  const backupFilePath = join(tmpdir(), `backup-${Date.now()}.sql`);
+  const backupFilePath = join(
+    tmpdir(),
+    `backup-${config.name}-${Date.now()}.sql`,
+  );
   const backupCommand = `mysqldump -h ${config.host} -u ${config.user} -p${config.password} ${config.name} > ${backupFilePath}`;
   await promisify(exec)(backupCommand);
   return backupFilePath;

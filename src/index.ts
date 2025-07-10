@@ -28,36 +28,40 @@ const providers = config.providers.map((description) => {
     throw new Error(
       `Unknown provider type : ${
         description.type
-      }, expected one of : ${Object.keys(Protocols).join(",")}`
+      }, expected one of : ${Object.keys(Protocols).join(",")}`,
     );
   }
 });
 
 async function backupJob(): Promise<void> {
   try {
-    const backupFilePath = await backupDatabase(config.db);
-    const compressedFilePath = await compressBackup(backupFilePath);
+    for (const db of config.dbs) {
+      const backupFilePath = await backupDatabase(db);
+      const compressedFilePath = await compressBackup(backupFilePath);
 
-    const jobs: Promise<void>[] = [];
-    for (const provider of providers) {
-      const job = async () => {
-        try {
-          await provider.send(compressedFilePath);
-          await provider.cleanup();
-        } catch (err) {
-          logger.error(`Error during job for ${provider.config.name}, ${err}`);
-        }
-      };
+      const jobs: Promise<void>[] = [];
+      for (const provider of providers) {
+        const job = async () => {
+          try {
+            await provider.send(compressedFilePath);
+            await provider.cleanup();
+          } catch (err) {
+            logger.error(
+              `Error during job for ${provider.config.name}, ${err}`,
+            );
+          }
+        };
 
-      jobs.push(job());
-    }
+        jobs.push(job());
+      }
 
-    await Promise.all(jobs);
+      await Promise.all(jobs);
 
-    try {
-      await cleanTempData();
-    } catch (err) {
-      logger.error(`Error during local cleanup, ${err}`);
+      try {
+        await cleanTempData();
+      } catch (err) {
+        logger.error(`Error during local cleanup, ${err}`);
+      }
     }
   } catch (err) {
     logger.error(`Error during DB backup ${err}`);
