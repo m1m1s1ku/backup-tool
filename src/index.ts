@@ -86,7 +86,7 @@ async function backupJob(): Promise<void> {
       logger.error(`Error during local cleanup, ${err}`);
     }
   } catch (err) {
-    logger.error(`Error during DB backup ${err}`);
+    logger.error(`Error during backup ${err}`);
   }
 }
 
