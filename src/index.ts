@@ -45,7 +45,6 @@ async function backupJob(): Promise<void> {
         const job = async () => {
           try {
             await provider.send(compressedFilePath);
-            await provider.cleanup();
           } catch (err) {
             logger.error(
               `Error during db job for ${provider.config.name}, ${err}`,
@@ -66,7 +65,6 @@ async function backupJob(): Promise<void> {
         const job = async () => {
           try {
             await provider.send(zipFilePath);
-            await provider.cleanup();
           } catch (err) {
             logger.error(
               `Error during files job for ${provider.config.name}, ${err}`,
@@ -78,6 +76,17 @@ async function backupJob(): Promise<void> {
       }
 
       await Promise.all(jobs);
+    }
+
+    // Once everything is sent, cleanup providers
+    for (const provider of providers) {
+      try {
+        await provider.cleanup();
+      } catch (err) {
+        logger.error(
+          `Error during cleanup for ${provider.config.name}, ${err}`,
+        );
+      }
     }
 
     try {
