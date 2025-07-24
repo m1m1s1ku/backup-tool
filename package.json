@@ -10,7 +10,7 @@
     "lint": "npx eslint .",
     "build": "pnpm run pretty && pnpm run lint && tsc"
   },
-  "author": "Mimisiku. <leonard@mimisiku.dev> (https://mimisiku.dev)",
+  "author": "Uplg. <leonard@uplg.xyz> (https://uplg.xyz)",
   "license": "MIT",
   "dependencies": {
     "ftp-ts": "^1.1.0",
